@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "immich-album-people-hider"
+version = "0.1.0"
+description = "Hide Immich people who appear only in selected albums (events, memes), keep everyone else visible"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Dawid Krynski" }]
+requires-python = ">=3.10"
+dependencies = []
+keywords = ["immich", "face-recognition", "people", "self-hosted"]
+classifiers = ["Programming Language :: Python :: 3", "Topic :: Multimedia :: Graphics"]
+
+[project.urls]
+Homepage = "https://github.com/DawidKrynski/immich-album-people-hider"
+
+[project.scripts]
+immich-album-people-hider = "immich_album_people_hider.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

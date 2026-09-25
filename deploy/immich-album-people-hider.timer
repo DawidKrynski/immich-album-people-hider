@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily run of immich-album-people-hider
+
+[Timer]
+OnCalendar=*-*-* 06:30:00
+RandomizedDelaySec=10m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

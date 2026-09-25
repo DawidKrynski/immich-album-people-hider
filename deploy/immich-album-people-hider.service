@@ -1,0 +1,32 @@
+# Example systemd unit. Adjust the URL, album names and key path, then:
+#   install -m 755 immich-album-people-hider.pyz /usr/local/bin/immich-album-people-hider
+#   cp immich-album-people-hider.{service,timer} /etc/systemd/system/
+#   systemctl daemon-reload && systemctl enable --now immich-album-people-hider.timer
+[Unit]
+Description=Hide Immich people who appear only in excluded albums
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+DynamicUser=yes
+StateDirectory=immich-album-people-hider
+# Root-only file with the API key (permissions: person.read, person.update, album.read, asset.statistics)
+LoadCredential=immich-api-key:/etc/immich-album-people-hider/api.key
+Environment=IMMICH_URL=http://127.0.0.1:2283
+ExecStart=/usr/local/bin/immich-album-people-hider --apply \
+    --api-key-file ${CREDENTIALS_DIRECTORY}/immich-api-key \
+    --state-file ${STATE_DIRECTORY}/state.json \
+    --album "New Year's Eve Party 2022"
+Nice=10
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
